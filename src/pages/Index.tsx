@@ -1,127 +1,70 @@
-import { useState } from "react";
-import { Lightbulb } from "lucide-react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { HeroBadge } from "@/components/HeroBadge";
-import { ContentInput } from "@/components/ContentInput";
-import { PlatformToggle } from "@/components/PlatformToggle";
-import { GenerateButton } from "@/components/GenerateButton";
-import { ExamplePrompts } from "@/components/ExamplePrompts";
-import { toast } from "sonner";
-
-const platforms = [
-  { id: "twitter", label: "Twitter / X", icon: "𝕏" },
-  { id: "linkedin", label: "LinkedIn", icon: "in" },
-  { id: "instagram", label: "Instagram", icon: "📷" },
-  { id: "blog", label: "Blog Post", icon: "✍️" },
-];
-
-const examplePrompts = [
-  "Share insights about building products t...",
-  "Announce our new sustainability initiati...",
-  "Reflect on lessons learned from scaling ...",
-  "Discuss the future of remote work and co...",
-];
+import { Link } from "react-router-dom";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { Sparkles, ArrowRight, Zap, Target, BarChart3 } from "lucide-react";
 
 const Index = () => {
-  const [content, setContent] = useState("");
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["twitter", "linkedin"]);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const { user } = useAuth();
 
-  const handlePlatformToggle = (platformId: string) => {
-    setSelectedPlatforms((prev) =>
-      prev.includes(platformId)
-        ? prev.filter((id) => id !== platformId)
-        : [...prev, platformId]
-    );
-  };
-
-  const handleExampleSelect = (example: string) => {
-    setContent(example);
-  };
-
-  const handleGenerate = async () => {
-    if (!content.trim()) {
-      toast.error("Please enter your content idea first");
-      return;
-    }
-    if (selectedPlatforms.length === 0) {
-      toast.error("Please select at least one platform");
-      return;
-    }
-
-    setIsGenerating(true);
-    
-    // Simulate generation
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    
-    setIsGenerating(false);
-    toast.success("Content generated successfully!", {
-      description: `Created for ${selectedPlatforms.length} platform(s)`,
-    });
-  };
-
-  const isGenerateDisabled = !content.trim() || selectedPlatforms.length === 0;
+  const features = [
+    { icon: Sparkles, title: "AI-Powered", description: "Generate content tailored for each platform" },
+    { icon: Target, title: "Multi-Platform", description: "Twitter, LinkedIn, Instagram & Blog" },
+    { icon: BarChart3, title: "Analytics", description: "Track performance and engagement" },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
-      <main className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <div className="w-full max-w-3xl space-y-8">
-          {/* Hero Section */}
-          <div className="text-center space-y-4">
-            <HeroBadge text="AI-Powered Content Engine" />
-            
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight animate-fade-in-up delay-100">
-              What would you like to share?
-            </h1>
-            
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto animate-fade-in-up delay-200">
-              Describe your idea or message. We'll adapt it intelligently for each platform.
-            </p>
+      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-16">
+        <div className="text-center max-w-4xl mx-auto space-y-8">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 animate-fade-in-up">
+            <Zap className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-primary">AI-Powered Content Automation</span>
           </div>
 
-          {/* Content Card */}
-          <div className="glass rounded-2xl p-6 space-y-6 animate-fade-in-up delay-300">
-            {/* Text Input */}
-            <ContentInput
-              value={content}
-              onChange={setContent}
-              placeholder="Enter your content idea, announcement, or message..."
-            />
+          {/* Headline */}
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight animate-fade-in-up delay-100">
+            <span className="text-foreground">Create Content</span>
+            <br />
+            <span className="text-gradient-vibrant">10x Faster</span>
+          </h1>
 
-            {/* Platform Selection */}
-            <div className="space-y-3">
-              <label className="text-sm font-medium text-muted-foreground">
-                Target Platforms
-              </label>
-              <PlatformToggle
-                platforms={platforms}
-                selected={selectedPlatforms}
-                onToggle={handlePlatformToggle}
-              />
-            </div>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-in-up delay-150">
+            Transform your ideas into platform-optimized content with the power of AI. One prompt, multiple platforms.
+          </p>
 
-            {/* Generate Section */}
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Lightbulb className="w-4 h-4" />
-                <span>Be specific about your audience and goals for better results</span>
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up delay-200">
+            <Link to={user ? "/create" : "/auth"}>
+              <Button variant="hero" size="xl" className="gap-2 group">
+                {user ? "Create Content" : "Get Started Free"}
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+            {user && (
+              <Link to="/dashboard">
+                <Button variant="glass" size="xl">View Dashboard</Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Features */}
+          <div className="grid md:grid-cols-3 gap-6 pt-12 animate-fade-in-up delay-300">
+            {features.map((f) => (
+              <div key={f.title} className="card-premium p-6 text-center">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-cyan-400 flex items-center justify-center mx-auto mb-4">
+                  <f.icon className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">{f.title}</h3>
+                <p className="text-sm text-muted-foreground">{f.description}</p>
               </div>
-              <GenerateButton
-                onClick={handleGenerate}
-                isLoading={isGenerating}
-                disabled={isGenerateDisabled}
-              />
-            </div>
+            ))}
           </div>
-
-          {/* Example Prompts */}
-          <ExamplePrompts examples={examplePrompts} onSelect={handleExampleSelect} />
         </div>
       </main>
-
       <Footer />
     </div>
   );
