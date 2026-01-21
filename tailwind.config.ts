@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -34,6 +35,14 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
@@ -50,7 +59,7 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Platform-specific colors
+        // Platform colors
         twitter: {
           DEFAULT: "hsl(199 89% 48%)",
           foreground: "hsl(0 0% 100%)",
@@ -75,12 +84,16 @@ export default {
         xl: "calc(var(--radius) + 4px)",
         "2xl": "calc(var(--radius) + 8px)",
         "3xl": "1.5rem",
+        "4xl": "2rem",
       },
       boxShadow: {
-        'glow': '0 0 40px -10px hsl(var(--primary) / 0.5)',
-        'glow-lg': '0 0 60px -15px hsl(var(--primary) / 0.6)',
+        'glow': '0 0 30px -8px hsl(var(--primary) / 0.5)',
+        'glow-lg': '0 0 50px -12px hsl(var(--primary) / 0.6)',
+        'glow-intense': '0 0 60px -10px hsl(var(--primary) / 0.7)',
         'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.36)',
         'elevated': '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+        'card': '0 4px 24px -4px rgba(0, 0, 0, 0.3)',
+        'inner-glow': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
       },
       backdropBlur: {
         xs: '2px',
@@ -104,7 +117,11 @@ export default {
         },
         "pulse-subtle": {
           "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.8" },
+          "50%": { opacity: "0.7" },
+        },
+        "bounce-subtle": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-4px)" },
         },
       },
       animation: {
@@ -113,6 +130,7 @@ export default {
         "fade-in": "fade-in 0.3s ease-out",
         "slide-up": "slide-up 0.4s ease-out",
         "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
+        "bounce-subtle": "bounce-subtle 2s ease-in-out infinite",
       },
     },
   },
